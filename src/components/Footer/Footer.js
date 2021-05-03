@@ -2,7 +2,7 @@ import React from 'react'
 export default function Footer() {
     return (
        <div>
-           Hello World
+           <button value="Reset" onClick={}></button>
        </div>
     )
 }
