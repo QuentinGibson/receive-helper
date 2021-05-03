@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import logo from './logo.svg';
-import List from './components/List'
-import Form from './components/Form'
+import List from './components/List/List'
+import Form from './components/Form/Form'
 import Footer from './components/Footer/Footer'
 import aftlite from './utils/aftlite.js'
 import './App.css';
