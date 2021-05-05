@@ -3,7 +3,6 @@ export const getItems = setItems => () => {
     const unpackingTable = () => {
         let maxIndex = 0;
         for (let i = 0; i < tables.length; i++) {
-            let maxIndex = 0
             if (tables[i].querySelectorAll('tr').length > tables[maxIndex].querySelectorAll('tr').length) {
                 maxIndex = i
             } 
