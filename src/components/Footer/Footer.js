@@ -1,8 +1,11 @@
-import React from 'react'
-export default function Footer() {
+import React, { useContext } from 'react'
+import { ItemsContext } from '../../context'
+export function Footer() {
+    const itemsContext = useContext(ItemsContext)
+    const { setItems } = itemsContext
     return (
        <div>
-           <button value="Reset" onClick={}></button>
+           <input type="button" value="Reset" onClick={() => setItems([])}></input>
        </div>
     )
 }
