@@ -1,33 +1,37 @@
 /*global chrome*/
 import {getItems, getLocations, moveItem} from './utils'
 
-export const chromeNewTab = (setTab) => {
-    setTab(chrome.tabs.create({ active: true }))
+export const chromeNewTab = async () => {
+    const tabs = await chrome.tabs.query({ active: true })
+    return tabs[0]
 }
 
-export const chromeCollectItems = (palletOrder, setItems, tab) => {
+export const chromeCollectItems = async (palletOrder, setItems, tab) => {
     const url = `https://aftlite-portal.amazon.com/dock_receive/reconcile_shorts_overages?po=${palletOrder}`
-    chrome.tabs.update(tab.id, url)
-    chrome.scripting.executeScript({
-        target: tabs.id,
-        function: getItems(setItems)
+    await chrome.tabs.update(tab.id, url).then(() => {
+        chrome.scripting.executeScript({
+            target: tab.id,
+            function: getItems(setItems)
+        })
     })
 }
 
-export const chromeCollectLocations = (palletOrder, setLocations) => {
+export const chromeCollectLocations = async (palletOrder, setLocations, tab) => {
     const url = `https://aftlite-portal.amazon.com/dock_receive/pallets?receivable_order_id=${palletOrder}`
-    chrome.tabs.update(tab.id, url)
-    chrome.scripting.executeScript({
-        target: tabs.id,
-        function: getLocations(setLocations)
+    await chrome.tabs.update(tab.id, url).then(() => {
+        chrome.scripting.executeScript({
+            target: tab.id,
+            function: getLocations(setLocations)
+        })
     })
 }
 
-export const moveItem = item => {
+export const chromeMoveItem = async (item, setItems, tab) => {
     const url = `https://aftlite-portal.amazon.com/receive-by-pallet`
-    chrome.tabs.update(tab.id, url)
-    chrome.scripting.executeScript({
-        target: tab.id,
-        function: moveItem(item, setItems)
+    await chrome.tabs.update(tab.id, url).then(() => {
+        chrome.scripting.executeScript({
+            target: tab.id,
+            function: moveItem(item, setItems)
+        })
     })
 }

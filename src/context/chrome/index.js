@@ -1,6 +1,6 @@
 export {
     chromeCollectItems,
-    chromeCreditItem,
-    moveItem,
-    removeItem
+    chromeCollectLocations,
+    chromeMoveItem,
+    chromeNewTab,
 } from './chrome'

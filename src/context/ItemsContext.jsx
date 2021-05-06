@@ -1,5 +1,5 @@
 import React, { createContext, useState } from 'react';
-import {chromeCollectItems, chromeCreditItem, moveItem, chromeNewTab} from './chrome'
+import {chromeCollectItems, chromeMoveItem, chromeNewTab} from './chrome'
 import PropTypes from 'prop-types';
 
 export const Context = createContext({})
@@ -20,21 +20,27 @@ export const Provider = (props) => {
     const [locations, setLocations] = useState(initialLocations)
     const [locationFilter, setLocationFilter] = useState(initialLocationFilter)
 
-    const collectItems = () => {
-        setItems(chromeCollectItems(palletOrder, setItems))
+    const collectItems = async () => {
+        await newTab().then(async () => {
+            const items = await chromeCollectItems(palletOrder, tab) 
+            setItems(items)
+        })
     }
 
-    const creditItem = item => {
-        chromeCreditItem(item)
+    const creditItem = async item => {
+        const items = await chromeMoveItem(item, tab)
+        setItems(items)
     }
 
-    const newTab = () => {
-        chromeNewTab(setTab)
+    const newTab = async () => {
+        const currentTab = await chromeNewTab()
+        setTab(currentTab.id)
+        console.log(`Tab: ${tab}`)
     }
 
     const removeItem = item => {
         const newItems = items.filter(currentItem => currentItem.asin !== item.asin)
-        return newItems
+        setItems(newItems)
     }
 
     const itemsContext = {
@@ -50,7 +56,7 @@ export const Provider = (props) => {
         setLocationFilter,
         collectItems,
         creditItem,
-        moveItem,
+        chromeMoveItem,
         removeItem
     }
 
@@ -62,13 +68,12 @@ export const { Consumer } = Context;
 Provider.propTypes = {
     items: PropTypes.array,
     palletOrder: PropTypes.string,
-    locationFilter: PropTypes.string,
-    tab: PropTypes.object
+    tab: PropTypes.number,
+    locations: PropTypes.object,
+    locationFilter: PropTypes.string
 }
 
 Provider.defaultProps = {
     items: [],
     palletOrder: '',
-    palletID: '',
-    locationFilter: ''
 }

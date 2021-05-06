@@ -33,3 +33,7 @@ export const getLocations = setLocations => () => {
     }
     setLocations(locations)
 }
+
+export const moveItem = () => () => {
+    
+}

@@ -7,7 +7,7 @@
     "default_popup": "index.html",
     "default_title": "Open the popup"
   },
-  "permissions": ["scripting", "tabs"],
+  "permissions": ["scripting", "tabs", "webNavigation"],
   "icons": {
     "16": "logo192.png",
     "48": "logo192.png",
